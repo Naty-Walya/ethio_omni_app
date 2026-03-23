@@ -15,7 +15,7 @@ class DioClient {
     _dio = Dio(
       BaseOptions(
         baseUrl: kDebugMode
-            ? 'http://localhost:3000/api'
+            ? 'http://localhost:3002/api'
             : 'https://api.ethio-omni.com/api',
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
