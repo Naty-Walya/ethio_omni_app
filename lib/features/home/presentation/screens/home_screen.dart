@@ -1,120 +1,89 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ethio_omni_app/features/home/presentation/widgets/dashboard_stats_card.dart';
+import 'package:ethio_omni_app/features/home/presentation/widgets/quick_actions_grid.dart';
+import 'package:ethio_omni_app/features/home/presentation/widgets/recent_activity_list.dart';
+import 'package:ethio_omni_app/features/home/presentation/providers/home_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final homeState = ref.watch(homeNotifierProvider);
+
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            expandedHeight: 200,
-            floating: true,
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              title: const Text('Ethio-Omni'),
-              background: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Theme.of(context).colorScheme.primary,
-                      Theme.of(context).colorScheme.primary.withAlpha(200), // ignore: deprecated_member_use
-                    ],
-                  ),
-                ),
-                child: const Center(
-                  child: Icon(
-                    Icons.local_shipping,
-                    size: 80,
-                    color: Colors.white54,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await ref.read(homeNotifierProvider.notifier).refresh();
+        },
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              expandedHeight: 120,
+              floating: true,
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(
+                title: const Text('Ethio-Omni'),
+                background: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Theme.of(context).colorScheme.primary,
+                        Theme.of(context).colorScheme.primary.withAlpha(200),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.account_circle),
-                onPressed: () => context.push('/profile'),
-              ),
-            ],
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.all(16.0),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate([
-                _buildServiceCard(
-                  context,
-                  icon: Icons.local_shipping,
-                  title: 'Freight Exchange',
-                  subtitle: 'Post or find freight loads',
-                  color: Colors.blue,
-                  onTap: () => context.push('/freight/posts'),
-                ),
-                const SizedBox(height: 16),
-                _buildServiceCard(
-                  context,
-                  icon: Icons.gavel,
-                  title: 'Live Auctions',
-                  subtitle: 'Bid on freight in real-time',
-                  color: Colors.orange,
-                  onTap: () => context.push('/freight/posts'),
-                ),
-                const SizedBox(height: 16),
-                _buildServiceCard(
-                  context,
-                  icon: Icons.account_balance_wallet,
-                  title: 'Wallet',
-                  subtitle: 'Manage your payments',
-                  color: Colors.green,
-                  onTap: () => context.push('/wallet'),
-                ),
-                const SizedBox(height: 32),
-                Text(
-                  'Quick Actions',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-                const SizedBox(height: 16),
-                Row(
+              actions: [
+                Stack(
                   children: [
-                    Expanded(
-                      child: _buildQuickAction(
-                        context,
-                        icon: Icons.add_box,
-                        label: 'Post Load',
-                        onTap: () => context.push('/freight/create'),
-                      ),
+                    IconButton(
+                      icon: const Icon(Icons.notifications),
+                      onPressed: () => context.push('/notifications'),
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildQuickAction(
-                        context,
-                        icon: Icons.search,
-                        label: 'Find Loads',
-                        onTap: () => context.push('/freight/posts'),
+                    if (homeState.unreadNotificationCount > 0)
+                      Positioned(
+                        right: 8,
+                        top: 8,
+                        child: Container(
+                          width: 8,
+                          height: 8,
+                          decoration: const BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildQuickAction(
-                        context,
-                        icon: Icons.history,
-                        label: 'History',
-                        onTap: () {},
-                      ),
-                    ),
                   ],
                 ),
-              ]),
+                IconButton(
+                  icon: const Icon(Icons.account_circle),
+                  onPressed: () => context.push('/profile'),
+                ),
+              ],
             ),
-          ),
-        ],
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  const DashboardStatsCard(),
+                  const SizedBox(height: 24),
+                  const QuickActionsGrid(),
+                  const SizedBox(height: 24),
+                  _buildServiceSection(context),
+                  const SizedBox(height: 24),
+                  const RecentActivityList(),
+                  const SizedBox(height: 24),
+                ]),
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
@@ -237,6 +206,50 @@ class HomeScreen extends ConsumerWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildServiceSection(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Services',
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          const SizedBox(height: 12),
+          _buildServiceCard(
+            context,
+            icon: Icons.local_shipping,
+            title: 'Freight Exchange',
+            subtitle: 'Post or find freight loads',
+            color: Colors.blue,
+            onTap: () => context.push('/freight/posts'),
+          ),
+          const SizedBox(height: 12),
+          _buildServiceCard(
+            context,
+            icon: Icons.gavel,
+            title: 'Live Auctions',
+            subtitle: 'Bid on freight in real-time',
+            color: Colors.orange,
+            onTap: () => context.push('/auctions'),
+          ),
+          const SizedBox(height: 12),
+          _buildServiceCard(
+            context,
+            icon: Icons.build,
+            title: 'Machinery Rental',
+            subtitle: 'Rent construction equipment',
+            color: Colors.purple,
+            onTap: () => context.push('/machinery'),
+          ),
+        ],
       ),
     );
   }
