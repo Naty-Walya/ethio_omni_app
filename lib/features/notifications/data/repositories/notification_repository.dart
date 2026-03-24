@@ -17,18 +17,20 @@ class NotificationRepository {
 
   Future<List<NotificationModel>> getNotifications({
     bool unreadOnly = false,
-    int page = 1,
     int limit = 20,
+    int offset = 0,
+    List<NotificationType>? types,
   }) async {
     try {
       final response = await _dio.get('/notifications', queryParameters: {
-        if (unreadOnly) 'unreadOnly': true,
-        'page': page,
+        'unreadOnly': unreadOnly,
         'limit': limit,
+        'offset': offset,
+        if (types != null) 'types': types.map((t) => t.name.toUpperCase()).join(','),
       });
 
       if (response.data['success'] == true) {
-        final List<dynamic> data = response.data['data'];
+        final List<dynamic> data = response.data['data']['notifications'];
         return data.map((json) => NotificationModel.fromJson(json)).toList();
       } else {
         throw Exception(response.data['message'] ?? 'Failed to get notifications');
@@ -40,7 +42,7 @@ class NotificationRepository {
 
   Future<void> markAsRead(String notificationId) async {
     try {
-      final response = await _dio.post('/notifications/$notificationId/read');
+      final response = await _dio.patch('/notifications/$notificationId/read');
 
       if (response.data['success'] != true) {
         throw Exception(response.data['message'] ?? 'Failed to mark as read');
@@ -52,10 +54,22 @@ class NotificationRepository {
 
   Future<void> markAllAsRead() async {
     try {
-      final response = await _dio.post('/notifications/read-all');
+      final response = await _dio.patch('/notifications/read-all');
 
       if (response.data['success'] != true) {
         throw Exception(response.data['message'] ?? 'Failed to mark all as read');
+      }
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
+  Future<void> deleteNotification(String notificationId) async {
+    try {
+      final response = await _dio.delete('/notifications/$notificationId');
+
+      if (response.data['success'] != true) {
+        throw Exception(response.data['message'] ?? 'Failed to delete notification');
       }
     } on DioException catch (e) {
       throw _handleDioError(e);
@@ -67,7 +81,7 @@ class NotificationRepository {
       final response = await _dio.get('/notifications/unread-count');
 
       if (response.data['success'] == true) {
-        return response.data['data']['count'] as int;
+        return response.data['count'] as int;
       } else {
         return 0;
       }
@@ -76,29 +90,98 @@ class NotificationRepository {
     }
   }
 
-  Future<NotificationSettings> getSettings() async {
+  // Device registration for push notifications
+  Future<void> registerDevice({
+    required String fcmToken,
+    required String deviceType,
+    String? deviceName,
+    String? osVersion,
+    String? appVersion,
+  }) async {
     try {
-      final response = await _dio.get('/notifications/settings');
+      final response = await _dio.post('/notifications/devices', data: {
+        'fcmToken': fcmToken,
+        'deviceType': deviceType,
+        'deviceName': deviceName,
+        'osVersion': osVersion,
+        'appVersion': appVersion,
+      });
 
-      if (response.data['success'] == true) {
-        return NotificationSettings.fromJson(response.data['data']);
-      } else {
-        throw Exception(response.data['message'] ?? 'Failed to get settings');
+      if (response.data['success'] != true) {
+        throw Exception(response.data['message'] ?? 'Failed to register device');
       }
     } on DioException catch (e) {
       throw _handleDioError(e);
     }
   }
 
-  Future<void> updateSettings(NotificationSettings settings) async {
+  Future<void> unregisterDevice(String fcmToken) async {
+    try {
+      final response = await _dio.delete('/notifications/devices/$fcmToken');
+
+      if (response.data['success'] != true) {
+        throw Exception(response.data['message'] ?? 'Failed to unregister device');
+      }
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
+  Future<List<DeviceInfo>> getDevices() async {
+    try {
+      final response = await _dio.get('/notifications/devices');
+
+      if (response.data['success'] == true) {
+        final List<dynamic> data = response.data['devices'];
+        return data.map((json) => DeviceInfo.fromJson(json)).toList();
+      } else {
+        return [];
+      }
+    } catch (e) {
+      return [];
+    }
+  }
+
+  // Notification preferences
+  Future<NotificationPreferences> getPreferences() async {
+    try {
+      final response = await _dio.get('/notifications/preferences');
+
+      if (response.data['success'] == true) {
+        return NotificationPreferences.fromJson(response.data['preferences']);
+      } else {
+        throw Exception(response.data['message'] ?? 'Failed to get preferences');
+      }
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
+  Future<void> updatePreferences(NotificationPreferences preferences) async {
     try {
       final response = await _dio.put(
-        '/notifications/settings',
-        data: settings.toJson(),
+        '/notifications/preferences',
+        data: preferences.toJson(),
       );
 
       if (response.data['success'] != true) {
-        throw Exception(response.data['message'] ?? 'Failed to update settings');
+        throw Exception(response.data['message'] ?? 'Failed to update preferences');
+      }
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
+  // Update specific preference fields
+  Future<void> updatePreferenceFields(Map<String, dynamic> fields) async {
+    try {
+      final response = await _dio.put(
+        '/notifications/preferences',
+        data: fields,
+      );
+
+      if (response.data['success'] != true) {
+        throw Exception(response.data['message'] ?? 'Failed to update preferences');
       }
     } on DioException catch (e) {
       throw _handleDioError(e);

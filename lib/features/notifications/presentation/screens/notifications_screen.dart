@@ -4,13 +4,40 @@ import 'package:go_router/go_router.dart';
 import 'package:ethio_omni_app/features/notifications/presentation/providers/notification_provider.dart';
 import 'package:ethio_omni_app/features/notifications/data/models/notification_model.dart';
 
-class NotificationsScreen extends ConsumerWidget {
+class NotificationsScreen extends ConsumerStatefulWidget {
   const NotificationsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<NotificationsScreen> createState() => _NotificationsScreenState();
+}
+
+class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      ref.read(notificationsNotifierProvider.notifier).loadMoreNotifications();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final notifications = ref.watch(notificationsProvider);
     final isLoading = ref.watch(notificationsLoadingProvider);
+    final isLoadingMore = ref.watch(notificationsNotifierProvider).isLoadingMore;
     final error = ref.watch(notificationsNotifierProvider).error;
     final unreadCount = ref.watch(unreadNotificationsCountProvider);
 
@@ -25,13 +52,19 @@ class NotificationsScreen extends ConsumerWidget {
               },
               child: const Text('Mark all read'),
             ),
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              context.push('/notifications/settings');
+            },
+          ),
         ],
       ),
       body: RefreshIndicator(
         onRefresh: () async {
           await ref.read(notificationsNotifierProvider.notifier).refresh();
         },
-        child: _buildBody(context, ref, notifications, isLoading, error),
+        child: _buildBody(context, ref, notifications, isLoading, isLoadingMore, error),
       ),
     );
   }
@@ -41,6 +74,7 @@ class NotificationsScreen extends ConsumerWidget {
     WidgetRef ref,
     List<NotificationModel> notifications,
     bool isLoading,
+    bool isLoadingMore,
     String? error,
   ) {
     if (isLoading && notifications.isEmpty) {
@@ -83,20 +117,42 @@ class NotificationsScreen extends ConsumerWidget {
     }
 
     return ListView.builder(
+      controller: _scrollController,
       padding: const EdgeInsets.all(16),
-      itemCount: notifications.length,
+      itemCount: notifications.length + (isLoadingMore ? 1 : 0),
       itemBuilder: (context, index) {
+        if (index == notifications.length) {
+          return const Padding(
+            padding: EdgeInsets.all(16),
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
+
         final notification = notifications[index];
-        return _NotificationTile(
-          notification: notification,
-          onTap: () {
-            if (!notification.isRead) {
-              ref.read(notificationsNotifierProvider.notifier).markAsRead(notification.id);
-            }
-            if (notification.actionUrl != null) {
-              context.push(notification.actionUrl!);
-            }
+        return Dismissible(
+          key: Key(notification.id),
+          direction: DismissDirection.endToStart,
+          background: Container(
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.only(right: 20),
+            color: Colors.red,
+            child: const Icon(Icons.delete, color: Colors.white),
+          ),
+          onDismissed: (_) {
+            ref.read(notificationsNotifierProvider.notifier).deleteNotification(notification.id);
           },
+          child: _NotificationTile(
+            notification: notification,
+            onTap: () {
+              if (!notification.isRead) {
+                ref.read(notificationsNotifierProvider.notifier).markAsRead(notification.id);
+              }
+              final route = notification.deepLinkRoute;
+              if (route != null) {
+                context.push(route);
+              }
+            },
+          ),
         );
       },
     );
@@ -115,8 +171,6 @@ class _NotificationTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final icon = _getIconForType(notification.type);
-    final color = _getColorForPriority(notification.priority);
 
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
@@ -126,10 +180,10 @@ class _NotificationTile extends StatelessWidget {
         leading: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: notification.iconColor.withOpacity(0.1),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(icon, color: color),
+          child: Icon(notification.icon, color: notification.iconColor),
         ),
         title: Text(
           notification.title,
@@ -168,36 +222,6 @@ class _NotificationTile extends StatelessWidget {
             : null,
       ),
     );
-  }
-
-  IconData _getIconForType(NotificationType type) {
-    switch (type) {
-      case NotificationType.bid:
-        return Icons.gavel;
-      case NotificationType.auction:
-        return Icons.access_time;
-      case NotificationType.payment:
-        return Icons.payment;
-      case NotificationType.job:
-        return Icons.work;
-      case NotificationType.system:
-        return Icons.info;
-      default:
-        return Icons.notifications;
-    }
-  }
-
-  Color _getColorForPriority(NotificationPriority priority) {
-    switch (priority) {
-      case NotificationPriority.high:
-        return Colors.red;
-      case NotificationPriority.medium:
-        return Colors.orange;
-      case NotificationPriority.low:
-        return Colors.blue;
-      default:
-        return Colors.grey;
-    }
   }
 
   String _formatTime(DateTime? time) {
