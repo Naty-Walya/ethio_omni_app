@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ethio_omni_app/features/ai/data/models/prediction_model.dart';
+import 'package:ethio_omni_app/features/ai/data/models/ai_models.dart';
 
 class DemandIndicator extends StatelessWidget {
   final DemandPredictionModel? prediction;
@@ -21,8 +21,8 @@ class DemandIndicator extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final demandColor = _getDemandColor(prediction!.demandScore);
-    final demandLabel = _getDemandLabel(prediction!.demandScore);
+    final demandColor = prediction!.demandColor;
+    final demandLabel = prediction!.demandLabel;
 
     return Card(
       elevation: 2,
@@ -54,15 +54,15 @@ class DemandIndicator extends StatelessWidget {
                 Expanded(
                   child: _buildStat(
                     context,
-                    label: 'Predicted Loads',
-                    value: prediction!.predictedLoads.toString(),
+                    label: 'Demand Index',
+                    value: '${prediction!.demandIndex}/100',
                   ),
                 ),
                 Expanded(
                   child: _buildStat(
                     context,
-                    label: 'Avg Price',
-                    value: 'ETB ${prediction!.averagePrice.toStringAsFixed(0)}',
+                    label: 'Confidence',
+                    value: '${(prediction!.confidence * 100).toInt()}%',
                   ),
                 ),
               ],
@@ -71,7 +71,7 @@ class DemandIndicator extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: LinearProgressIndicator(
-                value: prediction!.demandScore,
+                value: prediction!.demandIndex / 100,
                 minHeight: 12,
                 backgroundColor: Colors.grey[200],
                 valueColor: AlwaysStoppedAnimation<Color>(demandColor),
@@ -79,7 +79,7 @@ class DemandIndicator extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Route: ${prediction!.route}',
+              prediction!.recommendation,
               style: Theme.of(context).textTheme.bodySmall,
             ),
           ],
@@ -162,15 +162,3 @@ class DemandIndicator extends StatelessWidget {
     );
   }
 
-  Color _getDemandColor(double score) {
-    if (score >= 0.7) return Colors.green;
-    if (score >= 0.4) return Colors.orange;
-    return Colors.red;
-  }
-
-  String _getDemandLabel(double score) {
-    if (score >= 0.7) return 'HIGH';
-    if (score >= 0.4) return 'MEDIUM';
-    return 'LOW';
-  }
-}

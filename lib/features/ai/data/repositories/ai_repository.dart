@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ethio_omni_app/core/network/dio_client.dart';
-import 'package:ethio_omni_app/features/ai/data/models/prediction_model.dart';
+import 'package:ethio_omni_app/features/ai/data/models/ai_models.dart';
 
 final aiRepositoryProvider = Provider<AIRepository>((ref) {
   final dio = ref.watch(dioClientProvider);
@@ -15,14 +15,20 @@ class AIRepository {
 
   Dio get _dio => _dioClient.dio;
 
-  Future<DemandPredictionModel> getDemandPrediction(
-    GetDemandPredictionRequest request,
-  ) async {
+  // Get demand prediction
+  Future<DemandPredictionModel> getDemandPrediction({
+    required String region,
+    String? route,
+    int daysAhead = 7,
+  }) async {
     try {
-      final response = await _dio.post(
-        '/ai/demand-prediction',
-        data: request.toJson(),
-      );
+      final queryParams = <String, dynamic>{
+        'region': region,
+        if (route != null) 'route': route,
+        'daysAhead': daysAhead,
+      };
+
+      final response = await _dio.get('/ai/demand-prediction', queryParameters: queryParams);
 
       if (response.data['success'] == true) {
         return DemandPredictionModel.fromJson(response.data['data']);
@@ -34,14 +40,22 @@ class AIRepository {
     }
   }
 
-  Future<PriceRecommendationModel> getPriceRecommendation(
-    GetPriceRecommendationRequest request,
-  ) async {
+  // Get price recommendation
+  Future<PriceRecommendationModel> getPriceRecommendation({
+    required String pickupLocation,
+    required String deliveryLocation,
+    double weight = 1000,
+    String cargoType = 'GENERAL',
+  }) async {
     try {
-      final response = await _dio.post(
-        '/ai/price-recommendation',
-        data: request.toJson(),
-      );
+      final queryParams = <String, dynamic>{
+        'pickupLocation': pickupLocation,
+        'deliveryLocation': deliveryLocation,
+        'weight': weight,
+        'cargoType': cargoType,
+      };
+
+      final response = await _dio.get('/ai/price-recommendation', queryParameters: queryParams);
 
       if (response.data['success'] == true) {
         return PriceRecommendationModel.fromJson(response.data['data']);
@@ -53,9 +67,45 @@ class AIRepository {
     }
   }
 
-  Future<List<FraudAlertModel>> getFraudAlerts() async {
+  // Check fraud
+  Future<FraudCheckResult> checkFraud({
+    required String entityType,
+    required String entityId,
+    required Map<String, dynamic> data,
+  }) async {
     try {
-      final response = await _dio.get('/ai/fraud-alerts');
+      final response = await _dio.post('/ai/fraud-check', data: {
+        'entityType': entityType,
+        'entityId': entityId,
+        'data': data,
+      });
+
+      if (response.data['success'] == true) {
+        return FraudCheckResult.fromJson(response.data['data']);
+      } else {
+        throw Exception(response.data['message'] ?? 'Failed to check fraud');
+      }
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
+  // Get fraud alerts (admin)
+  Future<List<FraudAlertModel>> getFraudAlerts({
+    String? status,
+    String? severity,
+    int page = 1,
+    int limit = 20,
+  }) async {
+    try {
+      final queryParams = <String, dynamic>{
+        'page': page,
+        'limit': limit,
+        if (status != null) 'status': status,
+        if (severity != null) 'severity': severity,
+      };
+
+      final response = await _dio.get('/ai/fraud-alerts', queryParameters: queryParams);
 
       if (response.data['success'] == true) {
         final List<dynamic> data = response.data['data'];
@@ -68,30 +118,50 @@ class AIRepository {
     }
   }
 
-  Future<MatchScoreModel> getMatchScore(String driverId, String freightPostId) async {
+  // Get market analytics
+  Future<List<MarketAnalyticsModel>> getMarketAnalytics({
+    String? region,
+    String? period,
+    String periodType = 'DAY',
+  }) async {
     try {
-      final response = await _dio.get('/ai/match-score', queryParameters: {
-        'driverId': driverId,
-        'freightPostId': freightPostId,
-      });
+      final queryParams = <String, dynamic>{
+        'periodType': periodType,
+        if (region != null) 'region': region,
+        if (period != null) 'period': period,
+      };
+
+      final response = await _dio.get('/ai/market-analytics', queryParameters: queryParams);
 
       if (response.data['success'] == true) {
-        return MatchScoreModel.fromJson(response.data['data']);
+        final List<dynamic> data = response.data['data'];
+        return data.map((json) => MarketAnalyticsModel.fromJson(json)).toList();
       } else {
-        throw Exception(response.data['message'] ?? 'Failed to get match score');
+        throw Exception(response.data['message'] ?? 'Failed to get market analytics');
       }
     } on DioException catch (e) {
       throw _handleDioError(e);
     }
   }
 
-  Future<void> submitFeedback(String entityId, String entityType, bool wasHelpful) async {
+  // Submit AI feedback
+  Future<void> submitFeedback({
+    required String predictionId,
+    required String feedbackType,
+    int? rating,
+    String? comment,
+  }) async {
     try {
-      await _dio.post('/ai/feedback', data: {
-        'entityId': entityId,
-        'entityType': entityType,
-        'wasHelpful': wasHelpful,
+      final response = await _dio.post('/ai/feedback', data: {
+        'predictionId': predictionId,
+        'feedbackType': feedbackType,
+        if (rating != null) 'rating': rating,
+        if (comment != null) 'comment': comment,
       });
+
+      if (response.data['success'] != true) {
+        throw Exception(response.data['message'] ?? 'Failed to submit feedback');
+      }
     } on DioException catch (e) {
       throw _handleDioError(e);
     }
