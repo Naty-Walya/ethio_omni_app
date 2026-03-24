@@ -10,6 +10,9 @@ import 'package:ethio_omni_app/features/wallet/presentation/screens/wallet_scree
 import 'package:ethio_omni_app/features/profile/presentation/screens/profile_screen.dart';
 import 'package:ethio_omni_app/features/auction/presentation/screens/auctions_list_screen.dart';
 import 'package:ethio_omni_app/features/auction/presentation/screens/auction_room_screen.dart';
+import 'package:ethio_omni_app/features/jobs/presentation/screens/jobs_list_screen.dart';
+import 'package:ethio_omni_app/features/jobs/presentation/screens/job_detail_screen.dart';
+import 'package:ethio_omni_app/features/rental/presentation/screens/rental_list_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -63,6 +66,24 @@ final routerProvider = Provider<GoRouter>((ref) {
           final auctionId = state.pathParameters['id']!;
           return AuctionRoomScreen(auctionId: auctionId);
         },
+      ),
+      GoRoute(
+        path: '/jobs',
+        name: 'jobs',
+        builder: (context, state) => const JobsListScreen(),
+      ),
+      GoRoute(
+        path: '/jobs/:id',
+        name: 'job',
+        builder: (context, state) {
+          final jobId = state.pathParameters['id']!;
+          return JobDetailScreen(jobId: jobId);
+        },
+      ),
+      GoRoute(
+        path: '/rentals',
+        name: 'rentals',
+        builder: (context, state) => const RentalListScreen(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(
