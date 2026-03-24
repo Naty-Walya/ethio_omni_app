@@ -1,0 +1,664 @@
+{
+  "@@locale": "en",
+  "@@context": "Ethio-Omni Freight Exchange App",
+
+  "appName": "Ethio-Omni",
+  "@appName": {
+    "description": "The app name"
+  },
+
+  "welcome": "Welcome",
+  "@welcome": {
+    "description": "Welcome message"
+  },
+
+  "welcomeSubtitle": "Your trusted freight exchange platform",
+  "@welcomeSubtitle": {
+    "description": "Welcome subtitle"
+  },
+
+  "login": "Login",
+  "@login": {
+    "description": "Login button text"
+  },
+
+  "register": "Register",
+  "@register": {
+    "description": "Register button text"
+  },
+
+  "phoneNumber": "Phone Number",
+  "@phoneNumber": {
+    "description": "Phone number field label"
+  },
+
+  "password": "Password",
+  "@password": {
+    "description": "Password field label"
+  },
+
+  "confirmPassword": "Confirm Password",
+  "@confirmPassword": {
+    "description": "Confirm password field label"
+  },
+
+  "forgotPassword": "Forgot Password?",
+  "@forgotPassword": {
+    "description": "Forgot password link"
+  },
+
+  "dontHaveAccount": "Don't have an account?",
+  "@dontHaveAccount": {
+    "description": "Don't have account text"
+  },
+
+  "alreadyHaveAccount": "Already have an account?",
+  "@alreadyHaveAccount": {
+    "description": "Already have account text"
+  },
+
+  "signUp": "Sign Up",
+  "@signUp": {
+    "description": "Sign up button text"
+  },
+
+  "signIn": "Sign In",
+  "@signIn": {
+    "description": "Sign in button text"
+  },
+
+  "home": "Home",
+  "@home": {
+    "description": "Home navigation label"
+  },
+
+  "jobs": "Jobs",
+  "@jobs": {
+    "description": "Jobs navigation label"
+  },
+
+  "auctions": "Auctions",
+  "@auctions": {
+    "description": "Auctions navigation label"
+  },
+
+  "wallet": "Wallet",
+  "@wallet": {
+    "description": "Wallet navigation label"
+  },
+
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile navigation label"
+  },
+
+  "shipper": "Shipper",
+  "@shipper": {
+    "description": "Shipper role label"
+  },
+
+  "driver": "Driver",
+  "@driver": {
+    "description": "Driver role label"
+  },
+
+  "fleetOwner": "Fleet Owner",
+  "@fleetOwner": {
+    "description": "Fleet owner role label"
+  },
+
+  "selectRole": "Select your role",
+  "@selectRole": {
+    "description": "Select role prompt"
+  },
+
+  "freightPosts": "Freight Posts",
+  "@freightPosts": {
+    "description": "Freight posts title"
+  },
+
+  "postFreight": "Post Freight",
+  "@postFreight": {
+    "description": "Post freight button"
+  },
+
+  "pickupLocation": "Pickup Location",
+  "@pickupLocation": {
+    "description": "Pickup location field"
+  },
+
+  "deliveryLocation": "Delivery Location",
+  "@deliveryLocation": {
+    "description": "Delivery location field"
+  },
+
+  "cargoType": "Cargo Type",
+  "@cargoType": {
+    "description": "Cargo type field"
+  },
+
+  "weight": "Weight",
+  "@weight": {
+    "description": "Weight field"
+  },
+
+  "dimensions": "Dimensions",
+  "@dimensions": {
+    "description": "Dimensions field"
+  },
+
+  "budget": "Budget",
+  "@budget": {
+    "description": "Budget field"
+  },
+
+  "description": "Description",
+  "@description": {
+    "description": "Description field"
+  },
+
+  "submit": "Submit",
+  "@submit": {
+    "description": "Submit button"
+  },
+
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button"
+  },
+
+  "save": "Save",
+  "@save": {
+    "description": "Save button"
+  },
+
+  "edit": "Edit",
+  "@edit": {
+    "description": "Edit button"
+  },
+
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete button"
+  },
+
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Confirm button"
+  },
+
+  "reject": "Reject",
+  "@reject": {
+    "description": "Reject button"
+  },
+
+  "accept": "Accept",
+  "@accept": {
+    "description": "Accept button"
+  },
+
+  "bid": "Bid",
+  "@bid": {
+    "description": "Bid button"
+  },
+
+  "bids": "Bids",
+  "@bids": {
+    "description": "Bids title"
+  },
+
+  "placeBid": "Place Bid",
+  "@placeBid": {
+    "description": "Place bid button"
+  },
+
+  "bidAmount": "Bid Amount",
+  "@bidAmount": {
+    "description": "Bid amount field"
+  },
+
+  "estimatedDelivery": "Estimated Delivery",
+  "@estimatedDelivery": {
+    "description": "Estimated delivery field"
+  },
+
+  "myBids": "My Bids",
+  "@myBids": {
+    "description": "My bids title"
+  },
+
+  "activeJobs": "Active Jobs",
+  "@activeJobs": {
+    "description": "Active jobs title"
+  },
+
+  "completedJobs": "Completed Jobs",
+  "@completedJobs": {
+    "description": "Completed jobs title"
+  },
+
+  "jobDetails": "Job Details",
+  "@jobDetails": {
+    "description": "Job details title"
+  },
+
+  "trackJob": "Track Job",
+  "@trackJob": {
+    "description": "Track job button"
+  },
+
+  "confirmPickup": "Confirm Pickup",
+  "@confirmPickup": {
+    "description": "Confirm pickup button"
+  },
+
+  "confirmDelivery": "Confirm Delivery",
+  "@confirmDelivery": {
+    "description": "Confirm delivery button"
+  },
+
+  "pickupConfirmed": "Pickup Confirmed",
+  "@pickupConfirmed": {
+    "description": "Pickup confirmed status"
+  },
+
+  "deliveryConfirmed": "Delivery Confirmed",
+  "@deliveryConfirmed": {
+    "description": "Delivery confirmed status"
+  },
+
+  "inTransit": "In Transit",
+  "@inTransit": {
+    "description": "In transit status"
+  },
+
+  "delivered": "Delivered",
+  "@delivered": {
+    "description": "Delivered status"
+  },
+
+  "pending": "Pending",
+  "@pending": {
+    "description": "Pending status"
+  },
+
+  "completed": "Completed",
+  "@completed": {
+    "description": "Completed status"
+  },
+
+  "availableBalance": "Available Balance",
+  "@availableBalance": {
+    "description": "Available balance label"
+  },
+
+  "deposit": "Deposit",
+  "@deposit": {
+    "description": "Deposit button"
+  },
+
+  "withdraw": "Withdraw",
+  "@withdraw": {
+    "description": "Withdraw button"
+  },
+
+  "transactionHistory": "Transaction History",
+  "@transactionHistory": {
+    "description": "Transaction history title"
+  },
+
+  "amount": "Amount",
+  "@amount": {
+    "description": "Amount field"
+  },
+
+  "paymentMethod": "Payment Method",
+  "@paymentMethod": {
+    "description": "Payment method field"
+  },
+
+  "telebirr": "TeleBirr",
+  "@telebirr": {
+    "description": "TeleBirr payment method"
+  },
+
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "Notifications title"
+  },
+
+  "markAllRead": "Mark all as read",
+  "@markAllRead": {
+    "description": "Mark all read button"
+  },
+
+  "noNotifications": "No notifications",
+  "@noNotifications": {
+    "description": "No notifications message"
+  },
+
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings title"
+  },
+
+  "language": "Language",
+  "@language": {
+    "description": "Language setting"
+  },
+
+  "selectLanguage": "Select Language",
+  "@selectLanguage": {
+    "description": "Select language prompt"
+  },
+
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout button"
+  },
+
+  "areYouSure": "Are you sure?",
+  "@areYouSure": {
+    "description": "Confirmation question"
+  },
+
+  "yes": "Yes",
+  "@yes": {
+    "description": "Yes button"
+  },
+
+  "no": "No",
+  "@no": {
+    "description": "No button"
+  },
+
+  "error": "Error",
+  "@error": {
+    "description": "Error title"
+  },
+
+  "success": "Success",
+  "@success": {
+    "description": "Success title"
+  },
+
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Loading text"
+  },
+
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button"
+  },
+
+  "search": "Search",
+  "@search": {
+    "description": "Search hint"
+  },
+
+  "filter": "Filter",
+  "@filter": {
+    "description": "Filter button"
+  },
+
+  "sort": "Sort",
+  "@sort": {
+    "description": "Sort button"
+  },
+
+  "date": "Date",
+  "@date": {
+    "description": "Date label"
+  },
+
+  "time": "Time",
+  "@time": {
+    "description": "Time label"
+  },
+
+  "location": "Location",
+  "@location": {
+    "description": "Location label"
+  },
+
+  "status": "Status",
+  "@status": {
+    "description": "Status label"
+  },
+
+  "price": "Price",
+  "@price": {
+    "description": "Price label"
+  },
+
+  "total": "Total",
+  "@total": {
+    "description": "Total label"
+  },
+
+  "subtotal": "Subtotal",
+  "@subtotal": {
+    "description": "Subtotal label"
+  },
+
+  "tax": "Tax",
+  "@tax": {
+    "description": "Tax label"
+  },
+
+  "fee": "Fee",
+  "@fee": {
+    "description": "Fee label"
+  },
+
+  "discount": "Discount",
+  "@discount": {
+    "description": "Discount label"
+  },
+
+  "apply": "Apply",
+  "@apply": {
+    "description": "Apply button"
+  },
+
+  "clear": "Clear",
+  "@clear": {
+    "description": "Clear button"
+  },
+
+  "done": "Done",
+  "@done": {
+    "description": "Done button"
+  },
+
+  "close": "Close",
+  "@close": {
+    "description": "Close button"
+  },
+
+  "next": "Next",
+  "@next": {
+    "description": "Next button"
+  },
+
+  "back": "Back",
+  "@back": {
+    "description": "Back button"
+  },
+
+  "skip": "Skip",
+  "@skip": {
+    "description": "Skip button"
+  },
+
+  "continueButton": "Continue",
+  "@continueButton": {
+    "description": "Continue button"
+  },
+
+  "finish": "Finish",
+  "@finish": {
+    "description": "Finish button"
+  },
+
+  "optional": "Optional",
+  "@optional": {
+    "description": "Optional field label"
+  },
+
+  "required": "Required",
+  "@required": {
+    "description": "Required field indicator"
+  },
+
+  "invalidInput": "Invalid input",
+  "@invalidInput": {
+    "description": "Invalid input error"
+  },
+
+  "fieldRequired": "This field is required",
+  "@fieldRequired": {
+    "description": "Required field error"
+  },
+
+  "invalidPhone": "Invalid phone number",
+  "@invalidPhone": {
+    "description": "Invalid phone error"
+  },
+
+  "invalidEmail": "Invalid email address",
+  "@invalidEmail": {
+    "description": "Invalid email error"
+  },
+
+  "passwordTooShort": "Password must be at least 6 characters",
+  "@passwordTooShort": {
+    "description": "Password too short error"
+  },
+
+  "passwordsDontMatch": "Passwords don't match",
+  "@passwordsDontMatch": {
+    "description": "Passwords don't match error"
+  },
+
+  "noData": "No data available",
+  "@noData": {
+    "description": "No data message"
+  },
+
+  "pullToRefresh": "Pull to refresh",
+  "@pullToRefresh": {
+    "description": "Pull to refresh hint"
+  },
+
+  "tapToRetry": "Tap to retry",
+  "@tapToRetry": {
+    "description": "Tap to retry hint"
+  },
+
+  "seeAll": "See all",
+  "@seeAll": {
+    "description": "See all link"
+  },
+
+  "viewDetails": "View Details",
+  "@viewDetails": {
+    "description": "View details button"
+  },
+
+  "showMore": "Show more",
+  "@showMore": {
+    "description": "Show more link"
+  },
+
+  "showLess": "Show less",
+  "@showLess": {
+    "description": "Show less link"
+  },
+
+  "km": "km",
+  "@km": {
+    "description": "Kilometers abbreviation"
+  },
+
+  "kg": "kg",
+  "@kg": {
+    "description": "Kilograms abbreviation"
+  },
+
+  "ton": "ton",
+  "@ton": {
+    "description": "Ton abbreviation"
+  },
+
+  "etb": "ETB",
+  "@etb": {
+    "description": "Ethiopian Birr currency"
+  },
+
+  "qrCode": "QR Code",
+  "@qrCode": {
+    "description": "QR Code title"
+  },
+
+  "scanQRCode": "Scan QR Code",
+  "@scanQRCode": {
+    "description": "Scan QR code button"
+  },
+
+  "showQRCode": "Show QR Code",
+  "@showQRCode": {
+    "description": "Show QR code button"
+  },
+
+  "aiPredictions": "AI Predictions",
+  "@aiPredictions": {
+    "description": "AI Predictions title"
+  },
+
+  "demandForecast": "Demand Forecast",
+  "@demandForecast": {
+    "description": "Demand forecast title"
+  },
+
+  "priceRecommendation": "Price Recommendation",
+  "@priceRecommendation": {
+    "description": "Price recommendation title"
+  },
+
+  "fraudAlert": "Fraud Alert",
+  "@fraudAlert": {
+    "description": "Fraud alert title"
+  },
+
+  "security": "Security",
+  "@security": {
+    "description": "Security label"
+  },
+
+  "riskScore": "Risk Score",
+  "@riskScore": {
+    "description": "Risk score label"
+  },
+
+  "low": "Low",
+  "@low": {
+    "description": "Low level"
+  },
+
+  "medium": "Medium",
+  "@medium": {
+    "description": "Medium level"
+  },
+
+  "high": "High",
+  "@high": {
+    "description": "High level"
+  },
+
+  "critical": "Critical",
+  "@critical": {
+    "description": "Critical level"
+  }
+}

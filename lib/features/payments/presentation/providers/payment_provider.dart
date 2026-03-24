@@ -326,11 +326,200 @@ class PaymentNotifier extends Notifier<PaymentState> {
     state = state.copyWith(error: null);
   }
 
-  @override
-  void dispose() {
-    _statusCheckTimer?.cancel();
-    super.dispose();
+  // ================= ET-SWITCH PAYMENT METHODS =================
+
+  // Get ET-SWITCH supported banks
+  Future<List<EtSwitchBank>> getEtSwitchBanks() async {
+    try {
+      return await _repository.getEtSwitchBanks();
+    } catch (e) {
+      return EtSwitchBank.getEthiopianBanks();
+    }
   }
+
+  // Deposit via ET-SWITCH Card
+  Future<EtSwitchPaymentResponse?> depositViaEtSwitchCard({
+    required double amount,
+    String? description,
+    String? customerName,
+    String? customerEmail,
+    String? customerPhone,
+  }) async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      final orderId = 'ETSWITCH-CARD-${DateTime.now().millisecondsSinceEpoch}';
+      final response = await _repository.initiateEtSwitchCardPayment(
+        amount: amount,
+        orderId: orderId,
+        description: description ?? 'Wallet top-up via ET-SWITCH Card',
+        customerName: customerName,
+        customerEmail: customerEmail,
+        customerPhone: customerPhone,
+      );
+
+      if (response.success) {
+        state = state.copyWith(isLoading: false);
+        return response;
+      } else {
+        state = state.copyWith(
+          isLoading: false,
+          error: response.message,
+        );
+        return null;
+      }
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+      );
+      return null;
+    }
+  }
+
+  // Deposit via ET-SWITCH Bank Transfer
+  Future<EtSwitchPaymentResponse?> depositViaEtSwitchBankTransfer({
+    required String bankCode,
+    required double amount,
+    String? description,
+    String? customerName,
+    String? customerPhone,
+  }) async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      final orderId = 'ETSWITCH-BANK-${DateTime.now().millisecondsSinceEpoch}';
+      final response = await _repository.initiateEtSwitchBankTransfer(
+        bankCode: bankCode,
+        amount: amount,
+        orderId: orderId,
+        description: description ?? 'Wallet top-up via Bank Transfer',
+        customerName: customerName,
+        customerPhone: customerPhone,
+      );
+
+      if (response.success) {
+        state = state.copyWith(isLoading: false);
+        return response;
+      } else {
+        state = state.copyWith(
+          isLoading: false,
+          error: response.message,
+        );
+        return null;
+      }
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+      );
+      return null;
+    }
+  }
+
+  // Deposit via ET-SWITCH Mobile Banking
+  Future<EtSwitchPaymentResponse?> depositViaEtSwitchMobileBanking({
+    required String bankCode,
+    required double amount,
+    required String phoneNumber,
+    String? description,
+  }) async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      final orderId = 'ETSWITCH-MOBILE-${DateTime.now().millisecondsSinceEpoch}';
+      final response = await _repository.initiateEtSwitchMobileBanking(
+        bankCode: bankCode,
+        amount: amount,
+        orderId: orderId,
+        description: description ?? 'Wallet top-up via Mobile Banking',
+        customerPhone: phoneNumber,
+      );
+
+      if (response.success) {
+        state = state.copyWith(isLoading: false);
+        return response;
+      } else {
+        state = state.copyWith(
+          isLoading: false,
+          error: response.message,
+        );
+        return null;
+      }
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+      );
+      return null;
+    }
+  }
+
+  // Check ET-SWITCH payment status
+  Future<EtSwitchPaymentStatus> checkEtSwitchStatus(String transactionReference) async {
+    try {
+      final status = await _repository.checkEtSwitchPaymentStatus(transactionReference);
+
+      // If completed, refresh wallet
+      if (status == EtSwitchPaymentStatus.completed) {
+        await _loadWallet();
+      }
+
+      return status;
+    } catch (e) {
+      return EtSwitchPaymentStatus.pending;
+    }
+  }
+
+  // ================= TELEBIRR DIRECT PAYMENT =================
+
+  // Initiate Telebirr Direct (App-to-App) payment
+  Future<TelebirrDirectPayment?> initiateTelebirrDirectPayment({
+    required double amount,
+    String? description,
+  }) async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      final payment = await _repository.initiateTelebirrDirectPayment(
+        amount: amount,
+        orderId: 'TELEBIRR-DIRECT-${DateTime.now().millisecondsSinceEpoch}',
+        description: description ?? 'Ethio-Omni Payment',
+      );
+
+      state = state.copyWith(isLoading: false);
+      return payment;
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+      );
+      return null;
+    }
+  }
+
+  // Verify Telebirr payment callback
+  Future<bool> verifyTelebirrPayment(String transactionId, String referenceNumber) async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      final success = await _repository.verifyTelebirrPayment(transactionId, referenceNumber);
+
+      if (success) {
+        await _loadWallet();
+        state = state.copyWith(isLoading: false);
+      } else {
+        state = state.copyWith(
+          isLoading: false,
+          error: 'Payment verification failed',
+        );
+      }
+
+      return success;
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+      );
+      return false;
+    }
+  }
+
 }
 
 // Providers

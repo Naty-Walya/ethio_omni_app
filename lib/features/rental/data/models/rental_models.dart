@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 // Rental booking model for machinery/vehicle rental
 // Manual implementation to avoid Freezed generation issues
 
@@ -356,6 +358,3 @@ class AssetModel {
     }
   }
 }
-
-// Import for Color class
-import 'package:flutter/material.dart';

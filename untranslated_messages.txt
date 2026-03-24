@@ -1,0 +1,13 @@
+{
+  "am": [
+    "invalidEmail"
+  ],
+
+  "om": [
+    "invalidEmail"
+  ],
+
+  "ti": [
+    "invalidEmail"
+  ]
+}
