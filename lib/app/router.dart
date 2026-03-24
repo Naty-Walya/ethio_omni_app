@@ -8,6 +8,8 @@ import 'package:ethio_omni_app/features/freight/presentation/screens/available_p
 import 'package:ethio_omni_app/features/freight/presentation/screens/create_post_screen.dart';
 import 'package:ethio_omni_app/features/wallet/presentation/screens/wallet_screen.dart';
 import 'package:ethio_omni_app/features/profile/presentation/screens/profile_screen.dart';
+import 'package:ethio_omni_app/features/auction/presentation/screens/auctions_list_screen.dart';
+import 'package:ethio_omni_app/features/auction/presentation/screens/auction_room_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -48,6 +50,19 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/profile',
         name: 'profile',
         builder: (context, state) => const ProfileScreen(),
+      ),
+      GoRoute(
+        path: '/auctions',
+        name: 'auctions',
+        builder: (context, state) => const AuctionsListScreen(),
+      ),
+      GoRoute(
+        path: '/auctions/:id',
+        name: 'auction',
+        builder: (context, state) {
+          final auctionId = state.pathParameters['id']!;
+          return AuctionRoomScreen(auctionId: auctionId);
+        },
       ),
     ],
     errorBuilder: (context, state) => Scaffold(

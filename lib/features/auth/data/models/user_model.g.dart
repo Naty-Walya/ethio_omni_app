@@ -10,27 +10,27 @@ _UserModel _$UserModelFromJson(Map<String, dynamic> json) => _UserModel(
   id: json['id'] as String,
   phone: json['phone'] as String,
   role: json['role'] as String,
-  firstName: json['firstName'] as String?,
-  lastName: json['lastName'] as String?,
+  firstName: json['first_name'] as String?,
+  lastName: json['last_name'] as String?,
   email: json['email'] as String?,
   avatar: json['avatar'] as String?,
-  isPhoneVerified: json['isPhoneVerified'] as bool? ?? false,
-  isFaydaVerified: json['isFaydaVerified'] as bool? ?? false,
-  faydaId: json['faydaId'] as String?,
-  shipperProfile: json['shipperProfile'] == null
+  isPhoneVerified: json['is_phone_verified'] as bool? ?? false,
+  isFaydaVerified: json['is_fayda_verified'] as bool? ?? false,
+  faydaId: json['fayda_id'] as String?,
+  shipperProfile: json['shipper_profile'] == null
       ? null
       : ShipperProfileModel.fromJson(
-          json['shipperProfile'] as Map<String, dynamic>,
+          json['shipper_profile'] as Map<String, dynamic>,
         ),
-  driverProfile: json['driverProfile'] == null
+  driverProfile: json['driver_profile'] == null
       ? null
       : DriverProfileModel.fromJson(
-          json['driverProfile'] as Map<String, dynamic>,
+          json['driver_profile'] as Map<String, dynamic>,
         ),
-  fleetOwnerProfile: json['fleetOwnerProfile'] == null
+  fleetOwnerProfile: json['fleet_owner_profile'] == null
       ? null
       : FleetOwnerProfileModel.fromJson(
-          json['fleetOwnerProfile'] as Map<String, dynamic>,
+          json['fleet_owner_profile'] as Map<String, dynamic>,
         ),
   wallet: json['wallet'] == null
       ? null
@@ -42,29 +42,29 @@ Map<String, dynamic> _$UserModelToJson(_UserModel instance) =>
       'id': instance.id,
       'phone': instance.phone,
       'role': instance.role,
-      'firstName': instance.firstName,
-      'lastName': instance.lastName,
+      'first_name': instance.firstName,
+      'last_name': instance.lastName,
       'email': instance.email,
       'avatar': instance.avatar,
-      'isPhoneVerified': instance.isPhoneVerified,
-      'isFaydaVerified': instance.isFaydaVerified,
-      'faydaId': instance.faydaId,
-      'shipperProfile': instance.shipperProfile,
-      'driverProfile': instance.driverProfile,
-      'fleetOwnerProfile': instance.fleetOwnerProfile,
-      'wallet': instance.wallet,
+      'is_phone_verified': instance.isPhoneVerified,
+      'is_fayda_verified': instance.isFaydaVerified,
+      'fayda_id': instance.faydaId,
+      'shipper_profile': instance.shipperProfile?.toJson(),
+      'driver_profile': instance.driverProfile?.toJson(),
+      'fleet_owner_profile': instance.fleetOwnerProfile?.toJson(),
+      'wallet': instance.wallet?.toJson(),
     };
 
 _ShipperProfileModel _$ShipperProfileModelFromJson(Map<String, dynamic> json) =>
     _ShipperProfileModel(
       id: json['id'] as String?,
-      companyName: json['companyName'] as String?,
-      tinNumber: json['tinNumber'] as String?,
-      businessType: json['businessType'] as String?,
+      companyName: json['company_name'] as String?,
+      tinNumber: json['tin_number'] as String?,
+      businessType: json['business_type'] as String?,
       address: json['address'] as String?,
       city: json['city'] as String?,
       region: json['region'] as String?,
-      totalShipments: (json['totalShipments'] as num?)?.toInt() ?? 0,
+      totalShipments: (json['total_shipments'] as num?)?.toInt() ?? 0,
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
     );
 
@@ -72,64 +72,64 @@ Map<String, dynamic> _$ShipperProfileModelToJson(
   _ShipperProfileModel instance,
 ) => <String, dynamic>{
   'id': instance.id,
-  'companyName': instance.companyName,
-  'tinNumber': instance.tinNumber,
-  'businessType': instance.businessType,
+  'company_name': instance.companyName,
+  'tin_number': instance.tinNumber,
+  'business_type': instance.businessType,
   'address': instance.address,
   'city': instance.city,
   'region': instance.region,
-  'totalShipments': instance.totalShipments,
+  'total_shipments': instance.totalShipments,
   'rating': instance.rating,
 };
 
 _DriverProfileModel _$DriverProfileModelFromJson(Map<String, dynamic> json) =>
     _DriverProfileModel(
       id: json['id'] as String?,
-      licenseNumber: json['licenseNumber'] as String?,
-      licenseExpiry: json['licenseExpiry'] == null
+      licenseNumber: json['license_number'] as String?,
+      licenseExpiry: json['license_expiry'] == null
           ? null
-          : DateTime.parse(json['licenseExpiry'] as String),
-      licenseType: json['licenseType'] as String?,
-      vehicleType: json['vehicleType'] as String?,
-      vehicleCapacity: (json['vehicleCapacity'] as num?)?.toDouble(),
-      vehiclePlate: json['vehiclePlate'] as String?,
-      totalDeliveries: (json['totalDeliveries'] as num?)?.toInt() ?? 0,
+          : DateTime.parse(json['license_expiry'] as String),
+      licenseType: json['license_type'] as String?,
+      vehicleType: json['vehicle_type'] as String?,
+      vehicleCapacity: (json['vehicle_capacity'] as num?)?.toDouble(),
+      vehiclePlate: json['vehicle_plate'] as String?,
+      totalDeliveries: (json['total_deliveries'] as num?)?.toInt() ?? 0,
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
-      onTimeRate: (json['onTimeRate'] as num?)?.toDouble() ?? 0.0,
-      isAvailable: json['isAvailable'] as bool? ?? true,
-      currentLocation: json['currentLocation'] as String?,
+      onTimeRate: (json['on_time_rate'] as num?)?.toDouble() ?? 0.0,
+      isAvailable: json['is_available'] as bool? ?? true,
+      currentLocation: json['current_location'] as String?,
     );
 
 Map<String, dynamic> _$DriverProfileModelToJson(_DriverProfileModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'licenseNumber': instance.licenseNumber,
-      'licenseExpiry': instance.licenseExpiry?.toIso8601String(),
-      'licenseType': instance.licenseType,
-      'vehicleType': instance.vehicleType,
-      'vehicleCapacity': instance.vehicleCapacity,
-      'vehiclePlate': instance.vehiclePlate,
-      'totalDeliveries': instance.totalDeliveries,
+      'license_number': instance.licenseNumber,
+      'license_expiry': instance.licenseExpiry?.toIso8601String(),
+      'license_type': instance.licenseType,
+      'vehicle_type': instance.vehicleType,
+      'vehicle_capacity': instance.vehicleCapacity,
+      'vehicle_plate': instance.vehiclePlate,
+      'total_deliveries': instance.totalDeliveries,
       'rating': instance.rating,
-      'onTimeRate': instance.onTimeRate,
-      'isAvailable': instance.isAvailable,
-      'currentLocation': instance.currentLocation,
+      'on_time_rate': instance.onTimeRate,
+      'is_available': instance.isAvailable,
+      'current_location': instance.currentLocation,
     };
 
 _FleetOwnerProfileModel _$FleetOwnerProfileModelFromJson(
   Map<String, dynamic> json,
 ) => _FleetOwnerProfileModel(
   id: json['id'] as String?,
-  companyName: json['companyName'] as String?,
-  fleetSize: (json['fleetSize'] as num?)?.toInt() ?? 0,
+  companyName: json['company_name'] as String?,
+  fleetSize: (json['fleet_size'] as num?)?.toInt() ?? 0,
 );
 
 Map<String, dynamic> _$FleetOwnerProfileModelToJson(
   _FleetOwnerProfileModel instance,
 ) => <String, dynamic>{
   'id': instance.id,
-  'companyName': instance.companyName,
-  'fleetSize': instance.fleetSize,
+  'company_name': instance.companyName,
+  'fleet_size': instance.fleetSize,
 };
 
 _WalletModel _$WalletModelFromJson(Map<String, dynamic> json) => _WalletModel(

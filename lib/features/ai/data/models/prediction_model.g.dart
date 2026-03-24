@@ -11,13 +11,13 @@ _DemandPredictionModel _$DemandPredictionModelFromJson(
 ) => _DemandPredictionModel(
   id: json['id'] as String,
   route: json['route'] as String,
-  demandScore: (json['demandScore'] as num).toDouble(),
-  predictedLoads: (json['predictedLoads'] as num).toInt(),
-  averagePrice: (json['averagePrice'] as num).toDouble(),
-  timeRange: json['timeRange'] as String,
-  predictedAt: json['predictedAt'] == null
+  demandScore: (json['demand_score'] as num).toDouble(),
+  predictedLoads: (json['predicted_loads'] as num).toInt(),
+  averagePrice: (json['average_price'] as num).toDouble(),
+  timeRange: json['time_range'] as String,
+  predictedAt: json['predicted_at'] == null
       ? null
-      : DateTime.parse(json['predictedAt'] as String),
+      : DateTime.parse(json['predicted_at'] as String),
   segments:
       (json['segments'] as List<dynamic>?)
           ?.map((e) => RouteSegmentModel.fromJson(e as Map<String, dynamic>))
@@ -30,20 +30,20 @@ Map<String, dynamic> _$DemandPredictionModelToJson(
 ) => <String, dynamic>{
   'id': instance.id,
   'route': instance.route,
-  'demandScore': instance.demandScore,
-  'predictedLoads': instance.predictedLoads,
-  'averagePrice': instance.averagePrice,
-  'timeRange': instance.timeRange,
-  'predictedAt': instance.predictedAt?.toIso8601String(),
-  'segments': instance.segments,
+  'demand_score': instance.demandScore,
+  'predicted_loads': instance.predictedLoads,
+  'average_price': instance.averagePrice,
+  'time_range': instance.timeRange,
+  'predicted_at': instance.predictedAt?.toIso8601String(),
+  'segments': instance.segments.map((e) => e.toJson()).toList(),
 };
 
 _RouteSegmentModel _$RouteSegmentModelFromJson(Map<String, dynamic> json) =>
     _RouteSegmentModel(
       origin: json['origin'] as String,
       destination: json['destination'] as String,
-      demandFactor: (json['demandFactor'] as num).toDouble(),
-      priceEstimate: (json['priceEstimate'] as num).toDouble(),
+      demandFactor: (json['demand_factor'] as num).toDouble(),
+      priceEstimate: (json['price_estimate'] as num).toDouble(),
       confidence: (json['confidence'] as num).toInt(),
     );
 
@@ -51,8 +51,8 @@ Map<String, dynamic> _$RouteSegmentModelToJson(_RouteSegmentModel instance) =>
     <String, dynamic>{
       'origin': instance.origin,
       'destination': instance.destination,
-      'demandFactor': instance.demandFactor,
-      'priceEstimate': instance.priceEstimate,
+      'demand_factor': instance.demandFactor,
+      'price_estimate': instance.priceEstimate,
       'confidence': instance.confidence,
     };
 
@@ -60,32 +60,32 @@ _PriceRecommendationModel _$PriceRecommendationModelFromJson(
   Map<String, dynamic> json,
 ) => _PriceRecommendationModel(
   id: json['id'] as String,
-  recommendedPrice: (json['recommendedPrice'] as num).toDouble(),
-  minPrice: (json['minPrice'] as num).toDouble(),
-  maxPrice: (json['maxPrice'] as num).toDouble(),
-  marketAverage: (json['marketAverage'] as num).toDouble(),
+  recommendedPrice: (json['recommended_price'] as num).toDouble(),
+  minPrice: (json['min_price'] as num).toDouble(),
+  maxPrice: (json['max_price'] as num).toDouble(),
+  marketAverage: (json['market_average'] as num).toDouble(),
   reasoning: json['reasoning'] as String,
   factors:
       (json['factors'] as List<dynamic>?)
           ?.map((e) => PriceFactorModel.fromJson(e as Map<String, dynamic>))
           .toList() ??
       const [],
-  generatedAt: json['generatedAt'] == null
+  generatedAt: json['generated_at'] == null
       ? null
-      : DateTime.parse(json['generatedAt'] as String),
+      : DateTime.parse(json['generated_at'] as String),
 );
 
 Map<String, dynamic> _$PriceRecommendationModelToJson(
   _PriceRecommendationModel instance,
 ) => <String, dynamic>{
   'id': instance.id,
-  'recommendedPrice': instance.recommendedPrice,
-  'minPrice': instance.minPrice,
-  'maxPrice': instance.maxPrice,
-  'marketAverage': instance.marketAverage,
+  'recommended_price': instance.recommendedPrice,
+  'min_price': instance.minPrice,
+  'max_price': instance.maxPrice,
+  'market_average': instance.marketAverage,
   'reasoning': instance.reasoning,
-  'factors': instance.factors,
-  'generatedAt': instance.generatedAt?.toIso8601String(),
+  'factors': instance.factors.map((e) => e.toJson()).toList(),
+  'generated_at': instance.generatedAt?.toIso8601String(),
 };
 
 _PriceFactorModel _$PriceFactorModelFromJson(Map<String, dynamic> json) =>
@@ -105,53 +105,53 @@ Map<String, dynamic> _$PriceFactorModelToJson(_PriceFactorModel instance) =>
 _FraudAlertModel _$FraudAlertModelFromJson(Map<String, dynamic> json) =>
     _FraudAlertModel(
       id: json['id'] as String,
-      alertType: json['alertType'] as String,
-      riskScore: (json['riskScore'] as num).toDouble(),
+      alertType: json['alert_type'] as String,
+      riskScore: (json['risk_score'] as num).toDouble(),
       description: json['description'] as String,
-      entityId: json['entityId'] as String,
-      entityType: json['entityType'] as String,
-      actionTaken: json['actionTaken'] as String?,
-      detectedAt: json['detectedAt'] == null
+      entityId: json['entity_id'] as String,
+      entityType: json['entity_type'] as String,
+      actionTaken: json['action_taken'] as String?,
+      detectedAt: json['detected_at'] == null
           ? null
-          : DateTime.parse(json['detectedAt'] as String),
-      resolvedAt: json['resolvedAt'] == null
+          : DateTime.parse(json['detected_at'] as String),
+      resolvedAt: json['resolved_at'] == null
           ? null
-          : DateTime.parse(json['resolvedAt'] as String),
+          : DateTime.parse(json['resolved_at'] as String),
     );
 
 Map<String, dynamic> _$FraudAlertModelToJson(_FraudAlertModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'alertType': instance.alertType,
-      'riskScore': instance.riskScore,
+      'alert_type': instance.alertType,
+      'risk_score': instance.riskScore,
       'description': instance.description,
-      'entityId': instance.entityId,
-      'entityType': instance.entityType,
-      'actionTaken': instance.actionTaken,
-      'detectedAt': instance.detectedAt?.toIso8601String(),
-      'resolvedAt': instance.resolvedAt?.toIso8601String(),
+      'entity_id': instance.entityId,
+      'entity_type': instance.entityType,
+      'action_taken': instance.actionTaken,
+      'detected_at': instance.detectedAt?.toIso8601String(),
+      'resolved_at': instance.resolvedAt?.toIso8601String(),
     };
 
 _MatchScoreModel _$MatchScoreModelFromJson(Map<String, dynamic> json) =>
     _MatchScoreModel(
-      driverId: json['driverId'] as String,
-      freightPostId: json['freightPostId'] as String,
+      driverId: json['driver_id'] as String,
+      freightPostId: json['freight_post_id'] as String,
       score: (json['score'] as num).toDouble(),
-      distanceScore: (json['distanceScore'] as num).toDouble(),
-      ratingScore: (json['ratingScore'] as num).toDouble(),
-      priceScore: (json['priceScore'] as num).toDouble(),
-      reliabilityScore: (json['reliabilityScore'] as num).toDouble(),
+      distanceScore: (json['distance_score'] as num).toDouble(),
+      ratingScore: (json['rating_score'] as num).toDouble(),
+      priceScore: (json['price_score'] as num).toDouble(),
+      reliabilityScore: (json['reliability_score'] as num).toDouble(),
       reasoning: json['reasoning'] as String?,
     );
 
 Map<String, dynamic> _$MatchScoreModelToJson(_MatchScoreModel instance) =>
     <String, dynamic>{
-      'driverId': instance.driverId,
-      'freightPostId': instance.freightPostId,
+      'driver_id': instance.driverId,
+      'freight_post_id': instance.freightPostId,
       'score': instance.score,
-      'distanceScore': instance.distanceScore,
-      'ratingScore': instance.ratingScore,
-      'priceScore': instance.priceScore,
-      'reliabilityScore': instance.reliabilityScore,
+      'distance_score': instance.distanceScore,
+      'rating_score': instance.ratingScore,
+      'price_score': instance.priceScore,
+      'reliability_score': instance.reliabilityScore,
       'reasoning': instance.reasoning,
     };

@@ -11,38 +11,38 @@ _FreightPostModel _$FreightPostModelFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       title: json['title'] as String,
       description: json['description'] as String?,
-      cargoType: json['cargoType'] as String,
+      cargoType: json['cargo_type'] as String,
       weight: (json['weight'] as num).toDouble(),
       dimensions: json['dimensions'] as String?,
-      pickupLocation: json['pickupLocation'] as String,
-      pickupLat: (json['pickupLat'] as num?)?.toDouble(),
-      pickupLng: (json['pickupLng'] as num?)?.toDouble(),
-      pickupDate: DateTime.parse(json['pickupDate'] as String),
-      deliveryLocation: json['deliveryLocation'] as String,
-      deliveryLat: (json['deliveryLat'] as num?)?.toDouble(),
-      deliveryLng: (json['deliveryLng'] as num?)?.toDouble(),
-      preferredDeliveryDate: json['preferredDeliveryDate'] == null
+      pickupLocation: json['pickup_location'] as String,
+      pickupLat: (json['pickup_lat'] as num?)?.toDouble(),
+      pickupLng: (json['pickup_lng'] as num?)?.toDouble(),
+      pickupDate: DateTime.parse(json['pickup_date'] as String),
+      deliveryLocation: json['delivery_location'] as String,
+      deliveryLat: (json['delivery_lat'] as num?)?.toDouble(),
+      deliveryLng: (json['delivery_lng'] as num?)?.toDouble(),
+      preferredDeliveryDate: json['preferred_delivery_date'] == null
           ? null
-          : DateTime.parse(json['preferredDeliveryDate'] as String),
-      requiredVehicleType: json['requiredVehicleType'] as String?,
-      specialRequirements: json['specialRequirements'] as String?,
+          : DateTime.parse(json['preferred_delivery_date'] as String),
+      requiredVehicleType: json['required_vehicle_type'] as String?,
+      specialRequirements: json['special_requirements'] as String?,
       budget: (json['budget'] as num?)?.toDouble(),
-      auctionEnabled: json['auctionEnabled'] as bool? ?? true,
-      auctionStartTime: json['auctionStartTime'] == null
+      auctionEnabled: json['auction_enabled'] as bool? ?? true,
+      auctionStartTime: json['auction_start_time'] == null
           ? null
-          : DateTime.parse(json['auctionStartTime'] as String),
-      auctionEndTime: json['auctionEndTime'] == null
+          : DateTime.parse(json['auction_start_time'] as String),
+      auctionEndTime: json['auction_end_time'] == null
           ? null
-          : DateTime.parse(json['auctionEndTime'] as String),
-      startingBid: (json['startingBid'] as num?)?.toDouble(),
+          : DateTime.parse(json['auction_end_time'] as String),
+      startingBid: (json['starting_bid'] as num?)?.toDouble(),
       status: json['status'] as String? ?? 'POSTED',
-      createdAt: json['createdAt'] == null
+      createdAt: json['created_at'] == null
           ? null
-          : DateTime.parse(json['createdAt'] as String),
-      updatedAt: json['updatedAt'] == null
+          : DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] == null
           ? null
-          : DateTime.parse(json['updatedAt'] as String),
-      shipperId: json['shipperId'] as String?,
+          : DateTime.parse(json['updated_at'] as String),
+      shipperId: json['shipper_id'] as String?,
       shipper: json['shipper'] == null
           ? null
           : ShipperInfoModel.fromJson(json['shipper'] as Map<String, dynamic>),
@@ -63,32 +63,32 @@ Map<String, dynamic> _$FreightPostModelToJson(
   'id': instance.id,
   'title': instance.title,
   'description': instance.description,
-  'cargoType': instance.cargoType,
+  'cargo_type': instance.cargoType,
   'weight': instance.weight,
   'dimensions': instance.dimensions,
-  'pickupLocation': instance.pickupLocation,
-  'pickupLat': instance.pickupLat,
-  'pickupLng': instance.pickupLng,
-  'pickupDate': instance.pickupDate.toIso8601String(),
-  'deliveryLocation': instance.deliveryLocation,
-  'deliveryLat': instance.deliveryLat,
-  'deliveryLng': instance.deliveryLng,
-  'preferredDeliveryDate': instance.preferredDeliveryDate?.toIso8601String(),
-  'requiredVehicleType': instance.requiredVehicleType,
-  'specialRequirements': instance.specialRequirements,
+  'pickup_location': instance.pickupLocation,
+  'pickup_lat': instance.pickupLat,
+  'pickup_lng': instance.pickupLng,
+  'pickup_date': instance.pickupDate.toIso8601String(),
+  'delivery_location': instance.deliveryLocation,
+  'delivery_lat': instance.deliveryLat,
+  'delivery_lng': instance.deliveryLng,
+  'preferred_delivery_date': instance.preferredDeliveryDate?.toIso8601String(),
+  'required_vehicle_type': instance.requiredVehicleType,
+  'special_requirements': instance.specialRequirements,
   'budget': instance.budget,
-  'auctionEnabled': instance.auctionEnabled,
-  'auctionStartTime': instance.auctionStartTime?.toIso8601String(),
-  'auctionEndTime': instance.auctionEndTime?.toIso8601String(),
-  'startingBid': instance.startingBid,
+  'auction_enabled': instance.auctionEnabled,
+  'auction_start_time': instance.auctionStartTime?.toIso8601String(),
+  'auction_end_time': instance.auctionEndTime?.toIso8601String(),
+  'starting_bid': instance.startingBid,
   'status': instance.status,
-  'createdAt': instance.createdAt?.toIso8601String(),
-  'updatedAt': instance.updatedAt?.toIso8601String(),
-  'shipperId': instance.shipperId,
-  'shipper': instance.shipper,
-  'bids': instance.bids,
-  'job': instance.job,
-  'auction': instance.auction,
+  'created_at': instance.createdAt?.toIso8601String(),
+  'updated_at': instance.updatedAt?.toIso8601String(),
+  'shipper_id': instance.shipperId,
+  'shipper': instance.shipper?.toJson(),
+  'bids': instance.bids?.map((e) => e.toJson()).toList(),
+  'job': instance.job?.toJson(),
+  'auction': instance.auction?.toJson(),
 };
 
 _ShipperInfoModel _$ShipperInfoModelFromJson(Map<String, dynamic> json) =>
@@ -100,44 +100,44 @@ _ShipperInfoModel _$ShipperInfoModelFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$ShipperInfoModelToJson(_ShipperInfoModel instance) =>
-    <String, dynamic>{'id': instance.id, 'user': instance.user};
+    <String, dynamic>{'id': instance.id, 'user': instance.user?.toJson()};
 
 _UserInfoModel _$UserInfoModelFromJson(Map<String, dynamic> json) =>
     _UserInfoModel(
-      firstName: json['firstName'] as String?,
-      lastName: json['lastName'] as String?,
+      firstName: json['first_name'] as String?,
+      lastName: json['last_name'] as String?,
       rating: (json['rating'] as num?)?.toDouble(),
-      isFaydaVerified: json['isFaydaVerified'] as bool?,
+      isFaydaVerified: json['is_fayda_verified'] as bool?,
     );
 
 Map<String, dynamic> _$UserInfoModelToJson(_UserInfoModel instance) =>
     <String, dynamic>{
-      'firstName': instance.firstName,
-      'lastName': instance.lastName,
+      'first_name': instance.firstName,
+      'last_name': instance.lastName,
       'rating': instance.rating,
-      'isFaydaVerified': instance.isFaydaVerified,
+      'is_fayda_verified': instance.isFaydaVerified,
     };
 
 _BidModel _$BidModelFromJson(Map<String, dynamic> json) => _BidModel(
   id: json['id'] as String,
-  freightPostId: json['freightPostId'] as String,
-  driverId: json['driverId'] as String,
+  freightPostId: json['freight_post_id'] as String,
+  driverId: json['driver_id'] as String,
   amount: (json['amount'] as num).toDouble(),
   currency: json['currency'] as String? ?? 'ETB',
-  estimatedPickupDate: json['estimatedPickupDate'] == null
+  estimatedPickupDate: json['estimated_pickup_date'] == null
       ? null
-      : DateTime.parse(json['estimatedPickupDate'] as String),
-  estimatedDeliveryDate: json['estimatedDeliveryDate'] == null
+      : DateTime.parse(json['estimated_pickup_date'] as String),
+  estimatedDeliveryDate: json['estimated_delivery_date'] == null
       ? null
-      : DateTime.parse(json['estimatedDeliveryDate'] as String),
+      : DateTime.parse(json['estimated_delivery_date'] as String),
   message: json['message'] as String?,
   status: json['status'] as String? ?? 'PENDING',
-  createdAt: json['createdAt'] == null
+  createdAt: json['created_at'] == null
       ? null
-      : DateTime.parse(json['createdAt'] as String),
-  updatedAt: json['updatedAt'] == null
+      : DateTime.parse(json['created_at'] as String),
+  updatedAt: json['updated_at'] == null
       ? null
-      : DateTime.parse(json['updatedAt'] as String),
+      : DateTime.parse(json['updated_at'] as String),
   driver: json['driver'] == null
       ? null
       : DriverInfoModel.fromJson(json['driver'] as Map<String, dynamic>),
@@ -145,17 +145,17 @@ _BidModel _$BidModelFromJson(Map<String, dynamic> json) => _BidModel(
 
 Map<String, dynamic> _$BidModelToJson(_BidModel instance) => <String, dynamic>{
   'id': instance.id,
-  'freightPostId': instance.freightPostId,
-  'driverId': instance.driverId,
+  'freight_post_id': instance.freightPostId,
+  'driver_id': instance.driverId,
   'amount': instance.amount,
   'currency': instance.currency,
-  'estimatedPickupDate': instance.estimatedPickupDate?.toIso8601String(),
-  'estimatedDeliveryDate': instance.estimatedDeliveryDate?.toIso8601String(),
+  'estimated_pickup_date': instance.estimatedPickupDate?.toIso8601String(),
+  'estimated_delivery_date': instance.estimatedDeliveryDate?.toIso8601String(),
   'message': instance.message,
   'status': instance.status,
-  'createdAt': instance.createdAt?.toIso8601String(),
-  'updatedAt': instance.updatedAt?.toIso8601String(),
-  'driver': instance.driver,
+  'created_at': instance.createdAt?.toIso8601String(),
+  'updated_at': instance.updatedAt?.toIso8601String(),
+  'driver': instance.driver?.toJson(),
 };
 
 _DriverInfoModel _$DriverInfoModelFromJson(Map<String, dynamic> json) =>
@@ -164,92 +164,92 @@ _DriverInfoModel _$DriverInfoModelFromJson(Map<String, dynamic> json) =>
       user: json['user'] == null
           ? null
           : UserInfoModel.fromJson(json['user'] as Map<String, dynamic>),
-      vehicleType: json['vehicleType'] as String?,
+      vehicleType: json['vehicle_type'] as String?,
       rating: (json['rating'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$DriverInfoModelToJson(_DriverInfoModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'user': instance.user,
-      'vehicleType': instance.vehicleType,
+      'user': instance.user?.toJson(),
+      'vehicle_type': instance.vehicleType,
       'rating': instance.rating,
     };
 
 _FreightJobModel _$FreightJobModelFromJson(Map<String, dynamic> json) =>
     _FreightJobModel(
       id: json['id'] as String,
-      freightPostId: json['freightPostId'] as String,
-      bidId: json['bidId'] as String,
-      driverId: json['driverId'] as String,
+      freightPostId: json['freight_post_id'] as String,
+      bidId: json['bid_id'] as String,
+      driverId: json['driver_id'] as String,
       status: json['status'] as String? ?? 'ASSIGNED',
-      pickupTime: json['pickupTime'] == null
+      pickupTime: json['pickup_time'] == null
           ? null
-          : DateTime.parse(json['pickupTime'] as String),
-      deliveryTime: json['deliveryTime'] == null
+          : DateTime.parse(json['pickup_time'] as String),
+      deliveryTime: json['delivery_time'] == null
           ? null
-          : DateTime.parse(json['deliveryTime'] as String),
-      currentLat: (json['currentLat'] as num?)?.toDouble(),
-      currentLng: (json['currentLng'] as num?)?.toDouble(),
-      lastLocationUpdate: json['lastLocationUpdate'] == null
+          : DateTime.parse(json['delivery_time'] as String),
+      currentLat: (json['current_lat'] as num?)?.toDouble(),
+      currentLng: (json['current_lng'] as num?)?.toDouble(),
+      lastLocationUpdate: json['last_location_update'] == null
           ? null
-          : DateTime.parse(json['lastLocationUpdate'] as String),
-      pickupConfirmed: json['pickupConfirmed'] as bool? ?? false,
-      deliveryConfirmed: json['deliveryConfirmed'] as bool? ?? false,
-      recipientName: json['recipientName'] as String?,
+          : DateTime.parse(json['last_location_update'] as String),
+      pickupConfirmed: json['pickup_confirmed'] as bool? ?? false,
+      deliveryConfirmed: json['delivery_confirmed'] as bool? ?? false,
+      recipientName: json['recipient_name'] as String?,
       notes: json['notes'] as String?,
-      paymentStatus: json['paymentStatus'] as String? ?? 'PENDING',
-      createdAt: json['createdAt'] == null
+      paymentStatus: json['payment_status'] as String? ?? 'PENDING',
+      createdAt: json['created_at'] == null
           ? null
-          : DateTime.parse(json['createdAt'] as String),
-      updatedAt: json['updatedAt'] == null
+          : DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] == null
           ? null
-          : DateTime.parse(json['updatedAt'] as String),
+          : DateTime.parse(json['updated_at'] as String),
     );
 
 Map<String, dynamic> _$FreightJobModelToJson(_FreightJobModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'freightPostId': instance.freightPostId,
-      'bidId': instance.bidId,
-      'driverId': instance.driverId,
+      'freight_post_id': instance.freightPostId,
+      'bid_id': instance.bidId,
+      'driver_id': instance.driverId,
       'status': instance.status,
-      'pickupTime': instance.pickupTime?.toIso8601String(),
-      'deliveryTime': instance.deliveryTime?.toIso8601String(),
-      'currentLat': instance.currentLat,
-      'currentLng': instance.currentLng,
-      'lastLocationUpdate': instance.lastLocationUpdate?.toIso8601String(),
-      'pickupConfirmed': instance.pickupConfirmed,
-      'deliveryConfirmed': instance.deliveryConfirmed,
-      'recipientName': instance.recipientName,
+      'pickup_time': instance.pickupTime?.toIso8601String(),
+      'delivery_time': instance.deliveryTime?.toIso8601String(),
+      'current_lat': instance.currentLat,
+      'current_lng': instance.currentLng,
+      'last_location_update': instance.lastLocationUpdate?.toIso8601String(),
+      'pickup_confirmed': instance.pickupConfirmed,
+      'delivery_confirmed': instance.deliveryConfirmed,
+      'recipient_name': instance.recipientName,
       'notes': instance.notes,
-      'paymentStatus': instance.paymentStatus,
-      'createdAt': instance.createdAt?.toIso8601String(),
-      'updatedAt': instance.updatedAt?.toIso8601String(),
+      'payment_status': instance.paymentStatus,
+      'created_at': instance.createdAt?.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
     };
 
 _AuctionModel _$AuctionModelFromJson(Map<String, dynamic> json) =>
     _AuctionModel(
       id: json['id'] as String,
-      freightPostId: json['freightPostId'] as String,
-      startTime: DateTime.parse(json['startTime'] as String),
-      endTime: DateTime.parse(json['endTime'] as String),
-      startingBid: (json['startingBid'] as num).toDouble(),
-      currentBid: (json['currentBid'] as num?)?.toDouble(),
-      bidCount: (json['bidCount'] as num?)?.toInt() ?? 0,
+      freightPostId: json['freight_post_id'] as String,
+      startTime: DateTime.parse(json['start_time'] as String),
+      endTime: DateTime.parse(json['end_time'] as String),
+      startingBid: (json['starting_bid'] as num).toDouble(),
+      currentBid: (json['current_bid'] as num?)?.toDouble(),
+      bidCount: (json['bid_count'] as num?)?.toInt() ?? 0,
       status: json['status'] as String? ?? 'ACTIVE',
-      winnerId: json['winnerId'] as String?,
-      winningBid: (json['winningBid'] as num?)?.toDouble(),
-      createdAt: json['createdAt'] == null
+      winnerId: json['winner_id'] as String?,
+      winningBid: (json['winning_bid'] as num?)?.toDouble(),
+      createdAt: json['created_at'] == null
           ? null
-          : DateTime.parse(json['createdAt'] as String),
-      updatedAt: json['updatedAt'] == null
+          : DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] == null
           ? null
-          : DateTime.parse(json['updatedAt'] as String),
-      freightPost: json['freightPost'] == null
+          : DateTime.parse(json['updated_at'] as String),
+      freightPost: json['freight_post'] == null
           ? null
           : FreightPostModel.fromJson(
-              json['freightPost'] as Map<String, dynamic>,
+              json['freight_post'] as Map<String, dynamic>,
             ),
       bids: (json['bids'] as List<dynamic>?)
           ?.map((e) => AuctionBidModel.fromJson(e as Map<String, dynamic>))
@@ -259,30 +259,30 @@ _AuctionModel _$AuctionModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$AuctionModelToJson(_AuctionModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'freightPostId': instance.freightPostId,
-      'startTime': instance.startTime.toIso8601String(),
-      'endTime': instance.endTime.toIso8601String(),
-      'startingBid': instance.startingBid,
-      'currentBid': instance.currentBid,
-      'bidCount': instance.bidCount,
+      'freight_post_id': instance.freightPostId,
+      'start_time': instance.startTime.toIso8601String(),
+      'end_time': instance.endTime.toIso8601String(),
+      'starting_bid': instance.startingBid,
+      'current_bid': instance.currentBid,
+      'bid_count': instance.bidCount,
       'status': instance.status,
-      'winnerId': instance.winnerId,
-      'winningBid': instance.winningBid,
-      'createdAt': instance.createdAt?.toIso8601String(),
-      'updatedAt': instance.updatedAt?.toIso8601String(),
-      'freightPost': instance.freightPost,
-      'bids': instance.bids,
+      'winner_id': instance.winnerId,
+      'winning_bid': instance.winningBid,
+      'created_at': instance.createdAt?.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
+      'freight_post': instance.freightPost?.toJson(),
+      'bids': instance.bids?.map((e) => e.toJson()).toList(),
     };
 
 _AuctionBidModel _$AuctionBidModelFromJson(Map<String, dynamic> json) =>
     _AuctionBidModel(
       id: json['id'] as String,
-      auctionId: json['auctionId'] as String,
-      driverId: json['driverId'] as String,
+      auctionId: json['auction_id'] as String,
+      driverId: json['driver_id'] as String,
       amount: (json['amount'] as num).toDouble(),
-      createdAt: json['createdAt'] == null
+      createdAt: json['created_at'] == null
           ? null
-          : DateTime.parse(json['createdAt'] as String),
+          : DateTime.parse(json['created_at'] as String),
       driver: json['driver'] == null
           ? null
           : DriverInfoModel.fromJson(json['driver'] as Map<String, dynamic>),
@@ -291,9 +291,9 @@ _AuctionBidModel _$AuctionBidModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$AuctionBidModelToJson(_AuctionBidModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'auctionId': instance.auctionId,
-      'driverId': instance.driverId,
+      'auction_id': instance.auctionId,
+      'driver_id': instance.driverId,
       'amount': instance.amount,
-      'createdAt': instance.createdAt?.toIso8601String(),
-      'driver': instance.driver,
+      'created_at': instance.createdAt?.toIso8601String(),
+      'driver': instance.driver?.toJson(),
     };

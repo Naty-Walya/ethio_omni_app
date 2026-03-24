@@ -1,0 +1,21 @@
+targets:
+  $default:
+    builders:
+      freezed:
+        options:
+          # Generate toJson/fromJson methods
+          to_json: true
+          from_json: true
+      json_serializable:
+        options:
+          # Use field renaming
+          field_rename: snake
+          # Create toJson methods
+          create_to_json: true
+          # Create factory constructors
+          create_factory: true
+          # Explicit toJson
+          explicit_to_json: true
+    sources:
+      - lib/**
+      - $package$

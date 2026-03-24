@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ethio_omni_app/features/auth/data/models/user_model.dart';
+import 'package:ethio_omni_app/features/auth/data/models/user_model_manual.dart';
 import 'package:ethio_omni_app/features/auth/data/repositories/auth_repository.dart';
 
 // Auth state

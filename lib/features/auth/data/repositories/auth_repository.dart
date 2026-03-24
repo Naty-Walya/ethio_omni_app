@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ethio_omni_app/core/network/dio_client.dart';
-import 'package:ethio_omni_app/features/auth/data/models/user_model.dart';
+import 'package:ethio_omni_app/features/auth/data/models/user_model_manual.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   final dio = ref.watch(dioClientProvider);

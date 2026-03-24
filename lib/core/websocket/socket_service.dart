@@ -3,6 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ethio_omni_app/core/network/dio_client.dart';
 
+// Use polling first on web for better compatibility
+final _transports = kIsWeb ? ['polling', 'websocket'] : ['websocket'];
+
 final socketServiceProvider = Provider<SocketService>((ref) {
   final dio = ref.watch(dioClientProvider);
   return SocketService(dio);
@@ -28,13 +31,12 @@ class SocketService {
     final token = await _dioClient.getAuthToken();
 
     _socket = io.io(
-      kDebugMode ? 'http://localhost:3000' : 'https://api.ethio-omni.com',
+      kDebugMode ? 'http://localhost:3002' : 'https://api.ethio-omni.com',
       io.OptionBuilder()
-          .setTransports(['websocket'])
+          .setTransports(_transports)
           .enableAutoConnect()
           .enableForceNew()
-          .setAuth({'token': token})
-          .setExtraHeaders({'Authorization': token != null ? 'Bearer $token' : null})
+          .setQuery({'token': token ?? ''})
           .build(),
     );
 
